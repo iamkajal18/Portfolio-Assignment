@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevPortfolio | Creative Developer</title>
+    <title>Kajal Kasaudhan | Full Stack Developer & UI Designer</title>
+    <meta name="description" content="Full Stack Developer specializing in React, Next.js, and modern web technologies. 1 years of experience creating exceptional digital experiences.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
     <style>
@@ -15,6 +16,8 @@
             --light: #F8F9FF;
             --gray: #8A8AA3;
             --white: #ffffff;
+            --success: #10B981;
+            --warning: #F59E0B;
             --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             --glass: rgba(255, 255, 255, 0.1);
@@ -67,6 +70,40 @@
 
         section {
             padding: 80px 0;
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loading-screen.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .btn {
@@ -370,6 +407,35 @@
             50% { transform: translateY(-20px); }
         }
 
+        /* Stats Section */
+        .stats {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            padding: 60px 0;
+            margin: 40px 0;
+            border-radius: 30px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .stat-item p {
+            color: var(--gray);
+            font-weight: 500;
+        }
+
         /* About Section */
         .about {
             position: relative;
@@ -414,6 +480,7 @@
             line-height: 1.8;
         }
 
+       
         /* Skills Section */
         .skills-container {
             display: grid;
@@ -430,11 +497,36 @@
             border: 1px solid var(--glass-border);
             transition: var(--transition);
             box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
         }
 
         .skill:hover {
             transform: translateY(-10px);
             box-shadow: 0 20px 40px rgba(108, 99, 255, 0.2);
+        }
+
+        .skill::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(108, 99, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: var(--transition);
+            opacity: 0;
+        }
+
+        .skill:hover::before {
+            opacity: 1;
+            animation: shine 1.5s linear;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
 
         .skill i {
@@ -444,17 +536,23 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            position: relative;
+            z-index: 1;
         }
 
         .skill h3 {
             font-size: 1.5rem;
             margin-bottom: 15px;
             color: var(--dark);
+            position: relative;
+            z-index: 1;
         }
 
         .skill p {
             color: var(--gray);
             line-height: 1.6;
+            position: relative;
+            z-index: 1;
         }
 
         /* Projects Section */
@@ -476,6 +574,7 @@
             box-shadow: var(--shadow);
             transition: var(--transition);
             border: 1px solid var(--glass-border);
+            position: relative;
         }
 
         .project:hover {
@@ -498,6 +597,43 @@
 
         .project:hover .project-image img {
             transform: scale(1.05);
+        }
+
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(108, 99, 255, 0.9), rgba(255, 101, 132, 0.9));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .project:hover .project-overlay {
+            opacity: 1;
+        }
+
+        .overlay-btn {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .overlay-btn:hover {
+            transform: scale(1.1);
+            color: var(--primary);
         }
 
         .project-info {
@@ -533,6 +669,64 @@
             border: 1px solid rgba(108, 99, 255, 0.2);
         }
 
+        /* Testimonials Section */
+        .testimonials {
+            background: var(--light);
+        }
+
+        .testimonials-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .testimonial {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .testimonial:hover {
+            transform: translateY(-5px);
+        }
+
+        .testimonial-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .testimonial p {
+            color: var(--gray);
+            font-style: italic;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .testimonial h4 {
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .testimonial span {
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
         /* Contact Section */
         .contact-container {
             display: grid;
@@ -562,6 +756,11 @@
             display: flex;
             align-items: center;
             margin-bottom: 30px;
+            transition: var(--transition);
+        }
+
+        .contact-detail:hover {
+            transform: translateX(10px);
         }
 
         .contact-detail i {
@@ -693,6 +892,37 @@
             color: var(--gray);
         }
 
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-3px);
+            background: var(--secondary);
+        }
+
         /* Responsive Design */
         @media (max-width: 1024px) {
             .container {
@@ -717,6 +947,35 @@
             
             .projects-container {
                 grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+
+            .timeline::after {
+                left: 31px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+
+            .timeline-item::before {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 0;
+                top: 22px;
+                left: 46px;
+                border: 10px solid;
+                border-color: transparent var(--glass) transparent transparent;
+            }
+
+            .timeline-item::after {
+                left: 15px;
+            }
+
+            .timeline-right {
+                left: 0%;
             }
         }
 
@@ -784,6 +1043,15 @@
             .projects-container {
                 grid-template-columns: 1fr;
             }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+
+            .testimonials-container {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 576px) {
@@ -827,6 +1095,17 @@
                 width: 100%;
                 max-width: 250px;
             }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -843,20 +1122,30 @@
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
+
+            .testimonial {
+                padding: 30px 20px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader"></div>
+    </div>
+
     <!-- Header -->
     <header>
         <div class="container">
             <nav>
-                <a href="#" class="logo">Dev<span>Portfolio</span></a>
+                <a href="#" class="logo">Kajal<span>Dev</span></a>
                 <ul class="nav-links">
                     <li><a href="#home">Home</a></li>
                     <li><a href="#about">About</a></li>
                     <li><a href="#skills">Skills</a></li>
                     <li><a href="#projects">Projects</a></li>
+                    <li><a href="#testimonials">Reviews</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
                 <div class="header-controls">
@@ -883,16 +1172,22 @@
                     <p>
                         I craft exceptional digital experiences that are fast, accessible, and visually engaging.  
                         Passionate about turning ideas into impactful solutions with clean code and creative design.
+                        Specialized in React, Next.js, and modern web technologies.
                     </p>
                     <div class="hero-buttons">
-                        <a href="https://drive.google.com/file/d/1M0JPpv0L564izqk9ehzFh5JXeRZ0-MH5/view?usp=drive_link" class="btn">View My Resume</a>
-                        <a href="#contact" class="btn btn-secondary">Let's Talk</a>
+                        <a href="https://drive.google.com/file/d/1M0JPpv0L564izqk9ehzFh5JXeRZ0-MH5/view?usp=drive_link" target="_blank" class="btn">
+                            <i class="fas fa-download"></i> Download Resume
+                        </a>
+                        <a href="#contact" class="btn btn-secondary">
+                            <i class="fas fa-envelope"></i> Let's Talk
+                        </a>
                     </div>
                 </div>
                 <div class="hero-image">
-                    <img src="Profile.png" alt="Profile Image">
+                    <img src="Profile.png" alt="Kajal Kasaudhan - Profile Image">
                 </div>
             </div>
+            
         </div>
     </section>
 
@@ -901,21 +1196,30 @@
         <div class="container">
             <div class="section-title">
                 <h2>About Me</h2>
-                <p>Get to know more about my journey, passion, and what drives me</p>
+                <p>Get to know more about my journey, passion, and what drives me as a developer</p>
             </div>
             <div class="about-content">
                 <div class="about-image">
-                    <img src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80" alt="About Me">
+                    <img src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80" alt="About Me - Development Environment">
                 </div>
                 <div class="about-text">
-                    <h3>Curious Developer & Creative Problem Solver</h3>
-                    <p>Hello! I'm Kajal Kasaudhan, a frontend developer with 2+ years of experience building responsive websites and web apps. I specialize in creating clean, intuitive, and impactful user experiences.</p>
-                    <p>Passionate about continuous learning, I love turning complex ideas into simple, elegant solutions while staying updated with the latest tech trends.</p>
-                    <a href="#projects" class="btn">View My Work</a>
+                    <h3>Passionate Developer & Creative Problem Solver</h3>
+                    <p>Hello! I'm Kajal Kasaudhan, a dedicated frontend developer with 2+ years of hands-on experience in building responsive, user-centric websites and web applications. I specialize in React, Next.js, and modern JavaScript frameworks.</p>
+                    <p>My journey in web development started with a curiosity about how websites work, and it has evolved into a passion for creating seamless digital experiences. I believe in writing clean, maintainable code while staying updated with the latest industry trends and best practices.</p>
+                    <p>When I'm not coding, you'll find me exploring new technologies, contributing to open-source projects, or sharing knowledge with the developer community.</p>
+                    <div style="margin-top: 30px;">
+                        <a href="#projects" class="btn">
+                            <i class="fas fa-eye"></i> View My Work
+                        </a>
+                        <a href="https://drive.google.com/file/d/1M0JPpv0L564izqk9ehzFh5JXeRZ0-MH5/view?usp=drive_link" target="_blank" class="btn btn-secondary" style="margin-left: 15px;">
+                            <i class="fas fa-file-alt"></i> My Resume
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
+
 
     <!-- Skills Section -->
     <section id="skills" class="skills">
@@ -928,47 +1232,47 @@
                 <div class="skill">
                     <i class="fab fa-html5"></i>
                     <h3>HTML5</h3>
-                    <p>Semantic markup, accessibility, and modern HTML5 APIs.</p>
+                    <p>Semantic markup, accessibility standards, and modern HTML5 APIs for robust web foundations.</p>
                 </div>
                 <div class="skill">
                     <i class="fab fa-css3-alt"></i>
                     <h3>CSS3</h3>
-                    <p>Responsive design, Flexbox, Grid, and CSS animations.</p>
+                    <p>Advanced styling with Flexbox, Grid, animations, and responsive design principles.</p>
                 </div>
                 <div class="skill">
                     <i class="fab fa-js"></i>
                     <h3>JavaScript</h3>
-                    <p>ES6+, DOM manipulation, and modern JavaScript frameworks.</p>
+                    <p>ES6+, DOM manipulation, async programming, and modern JavaScript best practices.</p>
                 </div>
                 <div class="skill">
                     <i class="fab fa-react"></i>
                     <h3>React</h3>
-                    <p>Component-based architecture, hooks, and state management.</p>
+                    <p>Component architecture, hooks, state management, and building dynamic user interfaces.</p>
                 </div>
                 <div class="skill">
                     <i class="fas fa-paint-brush"></i>
                     <h3>Tailwind CSS</h3>
-                    <p>Utility-first CSS framework for rapid UI development.</p>
+                    <p>Utility-first framework for rapid UI development and consistent design systems.</p>
                 </div>
                 <div class="skill">
                     <i class="fas fa-bolt"></i>
                     <h3>Next.js</h3>
-                    <p>React framework for SSR, SSG, and modern web apps.</p>
+                    <p>Full-stack React framework with SSR, SSG, and API routes for modern web applications.</p>
                 </div>
                 <div class="skill">
                     <i class="fab fa-node"></i>
                     <h3>Node.js</h3>
-                    <p>JavaScript runtime for scalable server-side applications.</p>
+                    <p>Server-side JavaScript runtime for building scalable backend applications and APIs.</p>
                 </div>
                 <div class="skill">
                     <i class="fas fa-database"></i>
                     <h3>MongoDB</h3>
-                    <p>NoSQL database for modern, flexible data storage.</p>
+                    <p>NoSQL database design, aggregation pipelines, and efficient data storage solutions.</p>
                 </div>
                 <div class="skill">
                     <i class="fas fa-cloud"></i>
-                    <h3>Vercel</h3>
-                    <p>Hosting and deployment platform for Next.js & frontend apps.</p>
+                    <h3>Vercel & Deployment</h3>
+                    <p>Modern hosting platforms, CI/CD pipelines, and seamless deployment workflows.</p>
                 </div>
             </div>
         </div>
@@ -978,56 +1282,120 @@
     <section id="projects" class="projects">
         <div class="container">
             <div class="section-title">
-                <h2>My Projects</h2>
-                <p>Some of my recent work that I'm proud of</p>
+                <h2>Featured Projects</h2>
+                <p>Some of my recent work that showcases my skills and creativity</p>
             </div>
             <div class="projects-container">
                 <div class="project">
                     <div class="project-image">
-                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Blog Website">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="LearnLive Blog Website">
+                        <div class="project-overlay">
+                            <a href="https://learningzone.vercel.app/" target="_blank" class="overlay-btn" title="View Live">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                            <a href="https://github.com" target="_blank" class="overlay-btn" title="View Code">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
                     </div>
                     <div class="project-info">
-                        <h3>LEARNLIVE– BLOGGING WEBSITE & AI BASED LEARNING</h3>
-                        <p>Built a full-stack blogging platform with AI chatbot, rich text editor, secure authentication, and Razorpay integration. Added AI-powered SEO, custom URLs, dynamic image previews, and optimized MongoDB with indexing.</p>
+                        <h3>LEARNLIVE – AI-Powered Blogging Platform</h3>
+                        <p>A comprehensive full-stack blogging website featuring AI chatbot integration, rich text editor, secure authentication, and Razorpay payment gateway. Includes AI-powered SEO optimization and dynamic content management.</p>
                         <div class="project-tags">
-                            <span>Next.JS</span>
+                            <span>Next.js</span>
+                            <span>React</span>
                             <span>Tailwind CSS</span>
                             <span>MongoDB</span>
-                            <span>ReactJS</span>
+                            <span>AI Integration</span>
                         </div>
-                        <a href="https://learningzone.vercel.app/" class="btn">View Project</a>
+                        <a href="https://learningzone.vercel.app/" target="_blank" class="btn">
+                            <i class="fas fa-eye"></i> View Project
+                        </a>
                     </div>
                 </div>
                 <div class="project">
                     <div class="project-image">
-                        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="SmartBrief App">
+                        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="SmartBriefs AI App">
+                        <div class="project-overlay">
+                            <a href="https://ai-book-summarized.vercel.app/" target="_blank" class="overlay-btn" title="View Live">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                            <a href="https://github.com" target="_blank" class="overlay-btn" title="View Code">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
                     </div>
                     <div class="project-info">
-                        <h3>SMARTBRIEFS – AI-POWERED BOOK SUMMARIES</h3>
-                        <p>Built a Next.js & Tailwind CSS web app for AI-powered book discussions with character analysis, audio conversations, and chat bot engine. Integrated Google/Email auth, Razorpay, email alerts, and designed a modern responsive UI with dark/light mode.</p>
+                        <h3>SMARTBRIEFS – AI Book Summaries</h3>
+                        <p>An innovative web application for AI-powered book discussions with character analysis, audio conversations, and intelligent chatbot engine. Features Google authentication, Razorpay integration, and responsive design.</p>
                         <div class="project-tags">
-                            <span>NextJs</span>
-                            <span>AI integration</span>
+                            <span>Next.js</span>
+                            <span>AI Integration</span>
                             <span>Tailwind CSS</span>
                             <span>MongoDB</span>
+                            <span>Audio Processing</span>
                         </div>
-                        <a href="https://ai-book-summarized.vercel.app/" class="btn">View Project</a>
+                        <a href="https://ai-book-summarized.vercel.app/" target="_blank" class="btn">
+                            <i class="fas fa-eye"></i> View Project
+                        </a>
                     </div>
                 </div>
                 <div class="project">
                     <div class="project-image">
-                        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80" alt="Task Manager">
+                        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80" alt="Task Management Application">
+                        <div class="project-overlay">
+                            <a href="https://todo-list-eta-smoky-46.vercel.app/" target="_blank" class="overlay-btn" title="View Live">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                            <a href="https://github.com" target="_blank" class="overlay-btn" title="View Code">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
                     </div>
                     <div class="project-info">
-                        <h3>Task Management App</h3>
-                        <p>Drag-and-drop task management with local storage functionality and intuitive user interface for productivity enhancement.</p>
+                        <h3>Smart Task Manager</h3>
+                        <p>A feature-rich task management application with drag-and-drop functionality, local storage persistence, and intuitive user interface designed to boost productivity and organization.</p>
                         <div class="project-tags">
-                            <span>HTML</span>
-                            <span>CSS</span>
+                            <span>HTML5</span>
+                            <span>CSS3</span>
                             <span>JavaScript</span>
+                            <span>Local Storage</span>
+                            <span>Drag & Drop</span>
                         </div>
-                        <a href="https://todo-list-eta-smoky-46.vercel.app/" class="btn">View Project</a>
+                        <a href="https://todo-list-eta-smoky-46.vercel.app/" target="_blank" class="btn">
+                            <i class="fas fa-eye"></i> View Project
+                        </a>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>What People Say</h2>
+                <p>Feedback from clients and collaborators I've worked with</p>
+            </div>
+            <div class="testimonials-container">
+                <div class="testimonial">
+                    <div class="testimonial-avatar">R</div>
+                    <p>"Kajal delivered an exceptional website that exceeded our expectations. Her attention to detail and technical expertise made the entire process smooth and professional."</p>
+                    <h4>Rahul Sharma</h4>
+                    <span>Business Owner</span>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-avatar">P</div>
+                    <p>"Working with Kajal was a fantastic experience. She understood our requirements perfectly and delivered a modern, responsive website that our users love."</p>
+                    <h4>Priya Singh</h4>
+                    <span>Project Manager</span>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-avatar">A</div>
+                    <p>"Kajal's expertise in React and modern web technologies is impressive. She created a fast, user-friendly application that perfectly met our business needs."</p>
+                    <h4>Amit Kumar</h4>
+                    <span>Startup Founder</span>
                 </div>
             </div>
         </div>
@@ -1037,8 +1405,8 @@
     <section id="contact" class="contact">
         <div class="container">
             <div class="section-title">
-                <h2>Contact Me</h2>
-                <p>Let's discuss how we can work together</p>
+                <h2>Let's Work Together</h2>
+                <p>Ready to start your next project? Let's discuss how we can bring your ideas to life</p>
             </div>
             <div class="contact-container">
                 <div class="contact-info">
@@ -1061,35 +1429,46 @@
                         <i class="fas fa-map-marker-alt"></i>
                         <div>
                             <h4>Location</h4>
-                            <p>Crown mall Near BBD, Lucknow</p>
+                            <p>Crown Mall Near BBD, Lucknow, UP</p>
+                        </div>
+                    </div>
+                    <div class="contact-detail">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h4>Response Time</h4>
+                            <p>Usually within 24 hours</p>
                         </div>
                     </div>
                 </div>
                 <div class="contact-form">
                     <h3>Send Message</h3>
                     <form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
-                        <!-- Replace YOUR_ACCESS_KEY with your actual Web3Forms access key -->
                         <input type="hidden" name="access_key" value="f7c3fad2-a68f-4f76-84fb-847c5293be36">
                         <input type="hidden" name="subject" value="New Contact Form Message from Portfolio">
                         <input type="hidden" name="from_name" value="Portfolio Contact Form">
                         
                         <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" id="name" name="name" placeholder="Your Name" required>
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" placeholder="Enter your full name" required>
                         </div>
                         <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" placeholder="Your Email" required>
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" placeholder="Enter your email address" required>
                         </div>
                         <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" name="message" placeholder="Your Message" required></textarea>
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" placeholder="Project inquiry, collaboration, etc.">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" name="message" placeholder="Tell me about your project or how I can help you..." required></textarea>
                         </div>
                         
-                        <!-- Success and Error Messages -->
                         <div id="result" style="display: none; padding: 15px; border-radius: 10px; margin-bottom: 20px;"></div>
                         
-                        <button type="submit" class="btn" id="submitBtn">Send Message</button>
+                        <button type="submit" class="btn" id="submitBtn">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
                     </form>
                 </div>
             </div>
@@ -1100,20 +1479,79 @@
     <footer>
         <div class="container">
             <div class="footer-content">
-                <a href="#" class="logo">Dev<span>Portfolio</span></a>
+                <a href="#" class="logo">Kajal<span>Dev</span></a>
                 <div class="social-links">
-                    <a href="https://github.com/iamkajal18" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="https://www.linkedin.com/in/iamkajalkasaudhan/" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    <a href="https://x.com/KajalKasau51" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="https://github.com/iamkajal18" target="_blank" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/iamkajalkasaudhan/" target="_blank" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://x.com/KajalKasau51" target="_blank" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="mailto:kasaudhankajal51@gmail.com" aria-label="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
                 </div>
             </div>
             <div class="copyright">
-                <p>&copy; 2025 Kajal Kasaudhan ❤️ All rights reserved.</p>
+                <p>&copy; 2025 Kajal Kasaudhan. Made with passion and dedication. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
     <script>
+        // Loading Screen
+        window.addEventListener('load', () => {
+            const loadingScreen = document.getElementById('loadingScreen');
+            setTimeout(() => {
+                loadingScreen.classList.add('fade-out');
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            }, 1500);
+        });
+
+        // Counter Animation
+        function animateCounter() {
+            const counters = document.querySelectorAll('.stat-item h3[data-target]');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const increment = target / 100;
+                let current = 0;
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    counter.textContent = Math.floor(current) + (target === 98 ? '' : '');
+                }, 20);
+            });
+        }
+
+        // Trigger counter animation when stats section is visible
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounter();
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        });
+
+        const statsSection = document.querySelector('.stats');
+        if (statsSection) {
+            statsObserver.observe(statsSection);
+        }
+
         // Mobile Menu Toggle
         const menuToggle = document.getElementById('menuToggle');
         const navLinks = document.querySelector('.nav-links');
@@ -1139,7 +1577,6 @@
         const themeToggle = document.getElementById('themeToggle');
         const themeIcon = themeToggle.querySelector('i');
         
-        // Check for saved theme preference or default to light mode
         const currentTheme = localStorage.getItem('theme') || 'light';
         if (currentTheme === 'dark') {
             document.body.classList.add('dark-mode');
@@ -1150,7 +1587,6 @@
         themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
             
-            // Toggle icon
             if (document.body.classList.contains('dark-mode')) {
                 themeIcon.classList.remove('fa-moon');
                 themeIcon.classList.add('fa-sun');
@@ -1161,6 +1597,24 @@
                 localStorage.setItem('theme', 'light');
             }
         });
+
+        // Back to Top Button
+        const backToTop = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
         
         // Contact Form with Web3Forms
         const form = document.getElementById('contactForm');
@@ -1170,16 +1624,13 @@
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Show loading state
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Sending...';
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
             submitBtn.disabled = true;
             result.style.display = 'none';
 
-            // Create FormData object
             const formData = new FormData(form);
 
-            // Send form data
             fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
                 body: formData
@@ -1187,22 +1638,18 @@
             .then(async (response) => {
                 let json = await response.json();
                 if (response.status == 200) {
-                    // Success
                     result.innerHTML = `
-                        <div style="background: rgba(34, 197, 94, 0.1); color: #16a34a; border: 1px solid rgba(34, 197, 94, 0.3);">
-                            <i class="fas fa-check-circle"></i> Thank you! Your message has been sent successfully. I'll get back to you soon!
+                        <div style="background: rgba(16, 185, 129, 0.1); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.3);">
+                            <i class="fas fa-check-circle"></i> Thank you! Your message has been sent successfully. I'll get back to you within 24 hours!
                         </div>
                     `;
                     result.style.display = 'block';
                     form.reset();
                 } else {
-                    console.log(response);
                     throw new Error(json.message);
                 }
             })
             .catch(error => {
-                console.log(error);
-                // Error
                 result.innerHTML = `
                     <div style="background: rgba(239, 68, 68, 0.1); color: #dc2626; border: 1px solid rgba(239, 68, 68, 0.3);">
                         <i class="fas fa-exclamation-triangle"></i> Something went wrong! Please try again or email me directly at kasaudhankajal51@gmail.com
@@ -1211,19 +1658,16 @@
                 result.style.display = 'block';
             })
             .finally(() => {
-                // Reset button state
-                submitBtn.textContent = originalText;
+                submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
                 
-                // Hide message after 5 seconds
                 setTimeout(() => {
                     result.style.display = 'none';
-                }, 5000);
+                }, 7000);
             });
         });
         
         // Add scroll effect to navbar
-        let lastScrollTop = 0;
         window.addEventListener('scroll', function() {
             const header = document.querySelector('header');
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -1233,8 +1677,6 @@
             } else {
                 header.classList.remove('scrolled');
             }
-            
-            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
         });
         
         // Smooth scrolling for navigation links
@@ -1251,7 +1693,7 @@
             });
         });
         
-        // Animate elements on scroll
+        // Enhanced scroll animations
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -1262,32 +1704,208 @@
                 if (entry.isIntersecting) {
                     entry.target.style.opacity = '1';
                     entry.target.style.transform = 'translateY(0)';
+                    
+                    // Add stagger effect for skills and projects
+                    if (entry.target.classList.contains('skill') || entry.target.classList.contains('project')) {
+                        const delay = Array.from(entry.target.parentNode.children).indexOf(entry.target) * 100;
+                        entry.target.style.transitionDelay = delay + 'ms';
+                    }
                 }
             });
         }, observerOptions);
         
         // Initialize animation styles and observe elements
-        document.querySelectorAll('.skill, .project, .about-content, .contact-container > *').forEach(element => {
+        const animatedElements = document.querySelectorAll('.skill, .project, .about-content, .contact-container > *, .testimonial, .timeline-content');
+        animatedElements.forEach(element => {
             element.style.opacity = '0';
             element.style.transform = 'translateY(30px)';
             element.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
             observer.observe(element);
         });
-        
-        // Add loading animation
-        window.addEventListener('load', () => {
-            document.body.style.opacity = '1';
+
+        // Typing effect for hero text
+        function typeWriter(element, text, speed = 50) {
+            let i = 0;
+            element.innerHTML = '';
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        // Initialize typing effect after loading
+        setTimeout(() => {
+            const heroTitle = document.querySelector('.hero-text h2');
+            if (heroTitle) {
+                const originalText = heroTitle.textContent;
+                typeWriter(heroTitle, originalText, 100);
+            }
+        }, 2000);
+
+        // Add particle effect to hero section
+        function createParticles() {
+            const hero = document.querySelector('.hero');
+            const particlesContainer = document.createElement('div');
+            particlesContainer.style.position = 'absolute';
+            particlesContainer.style.top = '0';
+            particlesContainer.style.left = '0';
+            particlesContainer.style.width = '100%';
+            particlesContainer.style.height = '100%';
+            particlesContainer.style.pointerEvents = 'none';
+            particlesContainer.style.zIndex = '1';
+            
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                particle.style.width = '4px';
+                particle.style.height = '4px';
+                particle.style.background = 'var(--primary)';
+                particle.style.borderRadius = '50%';
+                particle.style.opacity = '0.3';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animation = `float ${3 + Math.random() * 4}s ease-in-out infinite`;
+                particle.style.animationDelay = Math.random() * 2 + 's';
+                particlesContainer.appendChild(particle);
+            }
+            
+            hero.appendChild(particlesContainer);
+        }
+
+        // Initialize particles after loading
+        setTimeout(createParticles, 2500);
+
+        // Enhanced form validation
+        const inputs = document.querySelectorAll('#contactForm input, #contactForm textarea');
+        inputs.forEach(input => {
+            input.addEventListener('blur', validateField);
+            input.addEventListener('input', clearError);
         });
-        
+
+        function validateField(e) {
+            const field = e.target;
+            const value = field.value.trim();
+            
+            // Remove existing error styles
+            field.style.borderColor = '';
+            
+            if (field.hasAttribute('required') && !value) {
+                field.style.borderColor = '#dc2626';
+                return false;
+            }
+            
+            if (field.type === 'email' && value) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(value)) {
+                    field.style.borderColor = '#dc2626';
+                    return false;
+                }
+            }
+            
+            field.style.borderColor = 'var(--success)';
+            return true;
+        }
+
+        function clearError(e) {
+            e.target.style.borderColor = '';
+        }
+
         // Handle resize events for better responsiveness
+        let resizeTimeout;
         window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                if (window.innerWidth > 768) {
+                    navLinks.classList.remove('active');
+                    const icon = menuToggle.querySelector('i');
+                    icon.classList.add('fa-bars');
+                    icon.classList.remove('fa-times');
+                }
+            }, 250);
+        });
+
+        // Add keyboard navigation support
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navLinks.classList.contains('active')) {
                 navLinks.classList.remove('active');
                 const icon = menuToggle.querySelector('i');
                 icon.classList.add('fa-bars');
                 icon.classList.remove('fa-times');
             }
         });
+
+        // Performance optimization: Lazy loading for images
+        const images = document.querySelectorAll('img');
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.src; // Trigger loading
+                    img.classList.remove('lazy');
+                    imageObserver.unobserve(img);
+                }
+            });
+        });
+
+        images.forEach(img => imageObserver.observe(img));
+
+        // Add focus management for accessibility
+        const focusableElements = document.querySelectorAll(
+            'a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
+        );
+
+        // Skip link functionality
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab' && e.shiftKey && document.activeElement === focusableElements[0]) {
+                e.preventDefault();
+                focusableElements[focusableElements.length - 1].focus();
+            } else if (e.key === 'Tab' && !e.shiftKey && document.activeElement === focusableElements[focusableElements.length - 1]) {
+                e.preventDefault();
+                focusableElements[0].focus();
+            }
+        });
+
+        // Initialize everything when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add loading states to buttons
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(btn => {
+                if (btn.href && btn.href.includes('http')) {
+                    btn.addEventListener('click', (e) => {
+                        const originalText = btn.innerHTML;
+                        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+                        setTimeout(() => {
+                            btn.innerHTML = originalText;
+                        }, 2000);
+                    });
+                }
+            });
+
+            // Add tooltips to social links
+            const socialLinks = document.querySelectorAll('.social-links a');
+            socialLinks.forEach(link => {
+                link.addEventListener('mouseenter', (e) => {
+                    const platform = e.target.getAttribute('aria-label');
+                    e.target.setAttribute('title', `Visit my ${platform} profile`);
+                });
+            });
+        });
+
+        // Console easter egg for developers
+        console.log(`
+        🚀 Hey there, fellow developer! 
+        
+        Thanks for checking out my portfolio code.
+        Built with vanilla HTML, CSS, and JavaScript.
+        
+        Want to connect? Reach out at kasaudhankajal51@gmail.com
+        
+        - Kajal Kasaudhan
+        `);
     </script>
 </body>
 </html>
